@@ -55,7 +55,7 @@ Create an optimized production build:
 npm run build
 ```
 
-The built files will be in the `dist/` directory, ready for deployment.
+The built files will be in the `build/` directory, ready for deployment.
 
 ## 📁 Project Structure
 
@@ -117,19 +117,20 @@ The application uses custom CSS with a modern gradient design. You can modify th
 
 ### Option 1: Static Hosting
 
-Deploy the `dist/` folder to any static hosting service:
+Deploy the `build/` folder to any static hosting service:
 
-- **Netlify**: Drag and drop the `dist` folder
+- **Netlify**: Drag and drop the `build` folder
 - **Vercel**: Connect your repository and deploy
 - **AWS S3**: Upload to an S3 bucket with static hosting enabled
-- **GitHub Pages**: Push the `dist` folder to a `gh-pages` branch
+- **GitHub Pages**: Push the `build` folder to a `gh-pages` branch
+- **Render**: Set publish directory to `build`
 
 ### Option 2: Web Server
 
 Deploy to any web server (Apache, Nginx, IIS):
 
 1. Build the project: `npm run build`
-2. Copy the contents of `dist/` to your web server's public directory
+2. Copy the contents of `build/` to your web server's public directory
 3. Configure your web server to serve the files
 
 ### Important Notes for Production
@@ -151,9 +152,9 @@ Deploy to any web server (Apache, Nginx, IIS):
 ### Production Testing
 
 1. Build the project: `npm run build`
-2. Serve the `dist/` folder using a local server:
+2. Serve the `build/` folder using a local server:
    ```bash
-   npx serve dist
+   npx serve build
    ```
 3. Test all functionality in a production-like environment
 
@@ -167,7 +168,7 @@ Deploy to any web server (Apache, Nginx, IIS):
 
 ### Build errors
 - Delete `node_modules/` and run `npm install` again
-- Clear webpack cache: `rm -rf dist/`
+- Clear webpack cache: `rm -rf build/`
 - Check Node.js version: `node --version` (should be v14+)
 
 ### Connection issues
