@@ -19,14 +19,14 @@ const SalesforceChatBot = () => {
           window.embeddedservice_bootstrap.settings.language = 'en_US';
 
           // Initialize with your Salesforce configuration
-          window.embeddedservice_bootstrap.init(
-            '00DH30000000naQ', // Organization ID
-            'Compiller', // Deployment Name
-            'https://megaport--peeklogicd.sandbox.my.site.com/ESWCompiller1762441909882', // Site URL
-            {
-              scrt2URL: 'https://megaport--peeklogicd.sandbox.my.salesforce-scrt.com'
-            }
-          );
+          embeddedservice_bootstrap.init(
+                '00DH30000000naQ',
+                'Render',
+                'https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713',
+                {
+                    scrt2URL: 'https://megaport--peeklogicd.sandbox.my.salesforce-scrt.com'
+                }
+            );
         }
       } catch (err) {
         console.error('Error loading Embedded Messaging: ', err);
@@ -46,7 +46,7 @@ const SalesforceChatBot = () => {
       // Load the Salesforce Embedded Messaging bootstrap script
       const script = document.createElement('script');
       script.type = 'text/javascript';
-      script.src = 'https://megaport--peeklogicd.sandbox.my.site.com/ESWCompiller1762441909882/assets/js/bootstrap.min.js';
+      script.src = 'https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713/assets/js/bootstrap.min.js';
       script.onload = initEmbeddedMessaging;
       script.onerror = (error) => {
         console.error('Failed to load Embedded Messaging script:', error);
