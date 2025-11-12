@@ -9,6 +9,17 @@ const SalesforceChatBot = () => {
       return;
     }
 
+    fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+        window.ipAddress = data.ip;
+        console.log('window.ipAddress from embedded service', window.ipAddress);
+    })
+    .catch(error => {
+        console.error('Error fetching IP from embedded service:', error);
+        window.ipAddress = null;
+    });
+
     // Initialize Salesforce Embedded Messaging
     const initEmbeddedMessaging = () => {
       try {
@@ -55,22 +66,7 @@ const SalesforceChatBot = () => {
       document.body.appendChild(script);
     }
 
-    // Add event listener for restart conversation
-    const handleRestartConversation = (event) => {
-      console.log("Restart conversation event received");
-      if (event.detail) {
-        console.log("Event details:", event.detail);
-      }
-      
-    };
 
-    // Add the event listener to the document
-    document.addEventListener('restartconversation', handleRestartConversation);
-
-    // Cleanup function - remove event listener
-    return () => {
-      document.removeEventListener('restartconversation', handleRestartConversation);
-    };
   }, []);
 
   return null; // This component doesn't render anything visible
