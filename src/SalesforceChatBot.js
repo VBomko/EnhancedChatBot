@@ -12,12 +12,12 @@ const SalesforceChatBot = () => {
     fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
     .then(data => {
-        window.ipAddress = data.ip;
-        console.log('window.ipAddress from embedded service', window.ipAddress);
+        globalThis.ipAddress = data.ip;
+        console.log('globalThis.ipAddress from embedded service', globalThis.ipAddress);
     })
     .catch(error => {
         console.error('Error fetching IP from embedded service:', error);
-        window.ipAddress = null;
+        globalThis.ipAddress = null;
     });
 
     // Initialize Salesforce Embedded Messaging
