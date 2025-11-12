@@ -56,41 +56,12 @@ const SalesforceChatBot = () => {
     }
 
     // Add event listener for restart conversation
-    const handleRestartConversation = () => {
+    const handleRestartConversation = (event) => {
       console.log("Restart conversation event received");
-      
-      try {
-        // Check if embedded_svc is available
-        if (window.embedded_svc && window.embedded_svc.liveAgentAPI) {
-          console.log("Ending current chat...");
-          
-          // End the current chat
-          window.embedded_svc.liveAgentAPI.endChat().then(() => {
-            console.log("Chat ended successfully");
-            
-            // Start a new chat after a brief delay
-            setTimeout(() => {
-              console.log("Starting new chat...");
-              if (window.embedded_svc && window.embedded_svc.liveAgentAPI) {
-                window.embedded_svc.liveAgentAPI.startChat({
-                  directToButtonRouting: function() {},
-                  prepopulatedPrechatFields: {}
-                }).then(() => {
-                  console.log("New chat started successfully");
-                }).catch((err) => {
-                  console.error("Error starting new chat:", err);
-                });
-              }
-            }, 500);
-          }).catch((err) => {
-            console.error("Error ending chat:", err);
-          });
-        } else {
-          console.warn("Salesforce Embedded Service API not available");
-        }
-      } catch (err) {
-        console.error("Error handling restart conversation:", err);
+      if (event.detail) {
+        console.log("Event details:", event.detail);
       }
+      
     };
 
     // Add the event listener to the document
