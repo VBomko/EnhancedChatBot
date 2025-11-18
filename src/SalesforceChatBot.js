@@ -226,6 +226,7 @@ const SalesforceChatBot = () => {
 
     // Initialize Salesforce Embedded Messaging
     const initEmbeddedMessaging = () => {
+      console.log('🔄 window.embeddedservice_bootstrap.settings' ,window.embeddedservice_bootstrap.settings);
       try {
         if (window.embeddedservice_bootstrap && !initialized.current) {
           initialized.current = true;
