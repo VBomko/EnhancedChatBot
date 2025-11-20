@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -33,6 +34,21 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { 
+          from: 'public/salesforceChatBot.html', 
+          to: 'salesforceChatBot.html' 
+        },
+        {
+          from: 'public',
+          to: '.',
+          globOptions: {
+            ignore: ['**/index.html'] // Don't copy index.html since HtmlWebpackPlugin handles it
+          }
+        }
+      ]
     })
   ],
   devServer: {
