@@ -18,7 +18,7 @@
                 setupAnalyticsEvents();
                 // Listen for messages from LWC
                 window.addEventListener('message', function(event) {
-                    console.log(':inbox_tray: Embedded script received:', event.data);
+                    console.log('📥 Embedded script received:', event.data);
                     if (event.data && event.data.action) {
                         handleLWCMessage(event.data);
                     }
@@ -45,7 +45,7 @@
                 .then(data => {
                     // Store in window object (like original code)
                     window.ipAddress = data.ip;
-                    console.log(':white_check_mark: IP Address fetched and stored:', window.ipAddress);
+                    console.log('✅ IP Address fetched and stored:', window.ipAddress);
                     console.log('window.ipAddress from Embedded:', window.ipAddress);
                     // Send IP to LWC
                     sendMessageToLWC({
