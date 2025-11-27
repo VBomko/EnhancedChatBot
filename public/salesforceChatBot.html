@@ -24,22 +24,22 @@
                     }
                 });
                 // Initialize Embedded Messaging
-                 //window.embeddedservice_bootstrap.init(
-                    //'00DH30000000naQ',
-                    //'Render',
-                    //'https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713',
-                    //{
-                    //  scrt2URL: 'https://megaport--peeklogicd.sandbox.my.salesforce-scrt.com'
-                    //}
-                  //);
-                  embeddedservice_bootstrap.init(
-                        '00D8r000009Fsyz',
-                        'Sales_Chat_1',
-                        'https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547',
-                        {
-                            scrt2URL: 'https://megaport--pldschatdt.sandbox.my.salesforce-scrt.com'
-                        }
-                    );
+                 window.embeddedservice_bootstrap.init(
+                    '00DH30000000naQ',
+                    'Render',
+                    'https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713',
+                    {
+                      scrt2URL: 'https://megaport--peeklogicd.sandbox.my.salesforce-scrt.com'
+                    }
+                  );
+                  //embeddedservice_bootstrap.init(
+                        //'00D8r000009Fsyz',
+                        //'Sales_Chat_1',
+                        //'https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547',
+                        //{
+                        //    scrt2URL: 'https://megaport--pldschatdt.sandbox.my.salesforce-scrt.com'
+                        //}
+                    //);
                   console.log('✅ Embedded Messaging initialized');
                 } catch (err) {
                 console.error('Error loading Embedded Messaging: ', err);
@@ -245,11 +245,61 @@
             };
             console.log('✅ Analytics events set up');
         }
+
+        // ========================================
+        // BUTTON MENU INPUT CONTROL
+        // ========================================
+        
+        // Event listener to detect button menus in conversation
+        window.addEventListener("message", (event) => {
+            // Listen for Salesforce Embedded Messaging events
+            if (event.data.method === "EMBEDDED_MESSAGING_DISPATCH_EVENT_TO_HOST" && 
+                event.data.data && 
+                event.data.data.eventDetails && 
+                event.data.data.eventDetails.conversationEntry && 
+                event.data.data.eventDetails.conversationEntry.entryPayload) {
+                
+                try {
+                    let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload);
+                    
+                    // Check if message contains button choices (menu)
+                    if (payload.abstractMessage && payload.abstractMessage.choices) {
+                        console.log('🔒 Button menu detected - disabling input');
+                        postIframeDisable();
+                    }
+                    // Check if user has responded to choices (re-enable input)
+                    else if (payload.abstractMessage && payload.abstractMessage.choicesResponse) {
+                        console.log('🔓 Choice selected - enabling input');
+                        postIframeEnable();
+                    }
+                } catch (error) {
+                    console.error('Error parsing conversation entry:', error);
+                }
+            }
+        });
+
+        // Function to disable user input in the iframe
+        function postIframeDisable() {
+            const iframe = document.getElementById("embeddedMessagingFrame");
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('InputDisable', '*');
+                console.log('📤 Sent InputDisable to iframe');
+            }
+        }
+
+        // Function to enable user input in the iframe
+        function postIframeEnable() {
+            const iframe = document.getElementById("embeddedMessagingFrame");
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('InputEnable', '*');
+                console.log('📤 Sent InputEnable to iframe');
+            }
+        }
     </script>
-    <!-- <script type='text/javascript'
+    <script type='text/javascript'
             src='https://megaport--peeklogicd.sandbox.my.site.com/ESWCompiller1762441909882/assets/js/bootstrap.min.js'
             onload='initEmbeddedMessaging()'>
-    </script> -->
-    <script type='text/javascript' src='https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+    </script>
+    <!-- <script type='text/javascript' src='https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script> -->
 </body>
 </html>
