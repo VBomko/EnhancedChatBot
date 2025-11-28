@@ -16,6 +16,8 @@
                 window.geoIpRegion = null;
                 // Set up analytics event handlers
                 setupAnalyticsEvents();
+                // Disable input in the iframe
+                postIframeDisable();
                 // Listen for messages from LWC
                 window.addEventListener('message', function(event) {
                     console.log('📥 Embedded script received:', event.data);
@@ -251,32 +253,32 @@
         // ========================================
         
         // Event listener to detect button menus in conversation
-        window.addEventListener("message", (event) => {
+        //window.addEventListener("message", (event) => {
             // Listen for Salesforce Embedded Messaging events
-            if (event.data.method === "EMBEDDED_MESSAGING_DISPATCH_EVENT_TO_HOST" && 
-                event.data.data && 
-                event.data.data.eventDetails && 
-                event.data.data.eventDetails.conversationEntry && 
-                event.data.data.eventDetails.conversationEntry.entryPayload) {
+            //if (event.data.method === "EMBEDDED_MESSAGING_DISPATCH_EVENT_TO_HOST" && 
+                //event.data.data && 
+                //event.data.data.eventDetails && 
+               // event.data.data.eventDetails.conversationEntry && 
+               // event.data.data.eventDetails.conversationEntry.entryPayload) {
                 
-                try {
-                    let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload);
+                //try {
+                    //let payload = JSON.parse(event.data.data.eventDetails.conversationEntry.entryPayload);
                     
                     // Check if message contains button choices (menu)
-                    if (payload.abstractMessage && payload.abstractMessage.choices) {
-                        console.log('🔒 Button menu detected - disabling input');
-                        postIframeDisable();
-                    }
+                    //if (payload.abstractMessage && payload.abstractMessage.choices) {
+                        //console.log('🔒 Button menu detected - disabling input');
+                        //postIframeDisable();
+                    //}
                     // Check if user has responded to choices (re-enable input)
-                    else if (payload.abstractMessage && payload.abstractMessage.choicesResponse) {
-                        console.log('🔓 Choice selected - enabling input');
-                        postIframeEnable();
-                    }
-                } catch (error) {
-                    console.error('Error parsing conversation entry:', error);
-                }
-            }
-        });
+                    //else if (payload.abstractMessage && payload.abstractMessage.choicesResponse) {
+                        //console.log('🔓 Choice selected - enabling input');
+                        //postIframeEnable();
+                    //}
+                //} catch (error) {
+                    //console.error('Error parsing conversation entry:', error);
+                //}
+            //}
+        //});
 
         // Function to disable user input in the iframe
         function postIframeDisable() {
