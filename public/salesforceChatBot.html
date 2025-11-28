@@ -32,6 +32,32 @@
                     postIframeDisable();
                 });
 
+                window.addEventListener("onEmbeddedMessagingConversationParticipantChanged", (event) => {
+                    console.log("Received the onEmbeddedMessagingConversationParticipantChanged event…");
+                    console.log("Event detail: ", event.detail);
+                  
+                    // Parse the event detail to check if an agent joined
+                    try {
+                        // The event.detail should contain the payload with entries
+                        const entries = event.detail?.entries || [];
+                        
+                        // Check each entry to see if an agent is joining
+                        entries.forEach(entry => {
+                            if (entry.operation === "add" && 
+                                entry.participant?.role === "Agent") {
+                                console.log("🔒 Agent joined - disabling input for:", entry.displayName);
+                                postIframeDisable();
+                            } else if (entry.operation === "remove" && 
+                                       entry.participant?.role === "Agent") {
+                                console.log("🔓 Agent left - enabling input for:", entry.displayName);
+                                postIframeEnable();
+                            }
+                        });
+                    } catch (error) {
+                        console.error("Error processing participant changed event:", error);
+                    }
+                });
+
 
                 // Initialize Embedded Messaging
                  window.embeddedservice_bootstrap.init(
