@@ -49,13 +49,13 @@
                             entries.forEach(entry => {
                                 if (entry.operation === "add" && 
                                     entry.participant?.role === "Agent") {
-                                    console.log("🔒 Agent joined - disabling input for:", entry.displayName);
-                                    postIframeDisable();
+                                    console.log("🔒 Agent joined - enabling input for:", entry.displayName);
+                                    postIframeEnable();
                                 } else if (entry.operation === "remove" && 
                                            entry.participant?.role === "Agent") {
-                                    console.log("🔓 Agent left - enabling input for:", entry.displayName);
+                                    console.log("🔓 Agent left - disabling input for:", entry.displayName);
                                     // Optionally enable input when agent leaves
-                                    // postIframeEnable();
+                                    postIframeDisable();
                                 }
                             });
                         }
