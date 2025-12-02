@@ -20,6 +20,9 @@
                     if (event.data && event.data.action) {
                         handleLWCMessage(event.data);
                     }
+                    if (event.data && event.data.eventName == 'onEmbeddedMessagingWindowClosed') {
+                        window.greetingMessageClosed();
+                    }
                 });
 
                 window.addEventListener("onEmbeddedMessagingWindowMaximized", (event) => {
