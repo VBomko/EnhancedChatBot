@@ -8,7 +8,9 @@
         function initEmbeddedMessaging() {
             try {
                 embeddedservice_bootstrap.settings.language = 'en_US';
-      
+                // Initialize analytics object
+                window.insent = window.insent || {};
+                window.dataLayer = window.dataLayer || [];
                 // Initialize storage for IP address and region (like original code)
                 window.ipAddress = null;
                 window.geoIpRegion = null;
@@ -160,35 +162,31 @@
         }
         function handleAnalyticsEvent(eventType, detail) {
             console.log('📊 Handling analytics event:', eventType, detail);
-            if ( window[eventType]) {
-                window[eventType]({ detail: detail });
+            if (window.insent && window.insent[eventType]) {
+                window.insent[eventType]({ detail: detail });
             } else {
                 console.warn('⚠️ Analytics event handler not found:', eventType);
             }
         }
         function setupAnalyticsEvents() {
             // Start Conversation Event
-            window.startConversation = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('startConversation', {
-                        eventCategory: 'Chat',
-                        eventAction: 'Start Conversation',
-                        eventLabel: event.detail ? event.detail.conversationId : 'Unknown'
+            window.insent.startConversation = function(event) {
+                window.dataLayer.push({
+                    'event': 'startConversation',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Start Conversation',
+                    'eventLabel': event.detail ? event.detail.conversationId : 'Unknown'
                 });
                 console.log('📊 Start Conversation tracked');
             };
-
-            
             // Email Capture Event
-            window.emailCapture = function(event) {
-
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('emailCapture', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Email Captured',
-                    eventLabel: event.detail ? event.detail.email : 'Unknown'
+            window.insent.emailCapture = function(event) {
+                window.dataLayer.push({
+                    'event': 'emailCapture',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Email Captured',
+                    'eventLabel': event.detail ? event.detail.email : 'Unknown'
                 });
-
                 if (window.analytics &&
                     window.OnetrustActiveGroups &&
                     window.OnetrustActiveGroups.includes('C0004') &&
@@ -205,14 +203,13 @@
                 console.log('📊 Email Capture tracked');
             };
             // Phone Number Capture Event
-            window.phoneNumberCapture = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('phoneNumberCapture', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Phone Number Captured',
-                    eventLabel: event.detail ? event.detail.phoneNumber : 'Unknown'
+            window.insent.phoneNumberCapture = function(event) {
+                window.dataLayer.push({
+                    'event': 'phoneNumberCapture',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Phone Number Captured',
+                    'eventLabel': event.detail ? event.detail.phoneNumber : 'Unknown'
                 });
-
                 if (window.analytics &&
                     window.OnetrustActiveGroups &&
                     window.OnetrustActiveGroups.includes('C0004')) {
@@ -224,14 +221,13 @@
                 console.log('📊 Phone Number Capture tracked');
             };
             // Calendar Booked Event
-            window.calendarBooked = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('calendarBooked', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Calendar Booked',
-                    eventLabel: event.detail ? event.detail.meetingId : 'Unknown'
+            window.insent.calendarBooked = function(event) {
+                window.dataLayer.push({
+                    'event': 'calendarBooked',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Calendar Booked',
+                    'eventLabel': event.detail ? event.detail.meetingId : 'Unknown'
                 });
-
                 if (window.analytics &&
                     window.OnetrustActiveGroups &&
                     window.OnetrustActiveGroups.includes('C0004')) {
@@ -243,47 +239,43 @@
                 console.log('📊 Calendar Booked tracked');
             };
             // Calendar Link Clicked Event
-            window.calendarLinkClicked = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('calendarLinkClicked', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Calendar Link Clicked',
-                    eventLabel: 'Calendar Link'
+            window.insent.calendarLinkClicked = function(event) {
+                window.dataLayer.push({
+                    'event': 'calendarLinkClicked',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Calendar Link Clicked',
+                    'eventLabel': 'Calendar Link'
                 });
-     
                 console.log('📊 Calendar Link Clicked tracked');
             };
             // Button Clicked Event
-            window.buttonClicked = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('buttonClicked', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Button Clicked',
-                    eventLabel: event.detail ? event.detail.buttonName : 'Unknown'
+            window.insent.buttonClicked = function(event) {
+                window.dataLayer.push({
+                    'event': 'buttonClicked',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Button Clicked',
+                    'eventLabel': event.detail ? event.detail.buttonName : 'Unknown'
                 });
-
                 console.log('📊 Button Clicked tracked:', event.detail ? event.detail.buttonName : 'Unknown');
             };
             // Greeting Message Closed Event
-            window.greetingMessageClosed = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('greetingMessageClosed', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Greeting Message Closed',
-                    eventLabel: 'Chat Greeting'
+            window.insent.greetingMessageClosed = function(event) {
+                window.dataLayer.push({
+                    'event': 'greetingMessageClosed',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Greeting Message Closed',
+                    'eventLabel': 'Chat Greeting'
                 });
-
                 console.log('📊 Greeting Message Closed tracked');
             };
             // Live Agent Unavailable Event
-            window.liveAgentUnavailable = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('liveAgentUnavailable', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Live Agent Unavailable',
-                    eventLabel: 'No Agent Available'
+            window.insent.liveAgentUnavailable = function(event) {
+                window.dataLayer.push({
+                    'event': 'liveAgentUnavailable',
+                    'eventCategory': 'Chat',
+                    'eventAction': 'Live Agent Unavailable',
+                    'eventLabel': 'No Agent Available'
                 });
-
                 console.log('📊 Live Agent Unavailable tracked');
             };
             console.log('✅ Analytics events set up');
