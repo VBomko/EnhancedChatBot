@@ -20,7 +20,7 @@
                     if (event.data && event.data.action) {
                         handleLWCMessage(event.data);
                     }
-                    if (event.data && event.data.eventName == 'onEmbeddedMessagingWindowClosed') {
+                    if (event.data && event.data.data && event.data.data.eventName == 'onEmbeddedMessagingWindowClosed') {
                         window.greetingMessageClosed();
                     }
                 });
