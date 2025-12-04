@@ -183,110 +183,103 @@
 
             
             // Email Capture Event
-            window.emailCapture = function(event) {
-
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('emailCapture', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Email Captured',
-                    eventLabel: event.detail ? event.detail.email : 'Unknown'
-                });
-
+            window.emailCapture = function (event) {
                 if (window.analytics &&
-                    window.OnetrustActiveGroups &&
-                    window.OnetrustActiveGroups.includes('C0004') &&
-                    event.input &&
-                    event.input.key &&
-                    event.input.value &&
-                    (event.input.key.toLowerCase() === 'email')) {
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004') &&
+                event.detail &&
+                event.detail.email) {
                     window.analytics.track(
-                        'Chat Engaged',
-                        { chat_source: 'zoominfo', chat_action: 'email captured' }
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: 'email captured' }
                     );
-                    window.analytics.identify({ 'email': event.input.value });
+                    window.analytics.identify({ 'email': event.detail.email });
                 }
                 console.log('📊 Email Capture tracked');
             };
-            // Phone Number Capture Event
-            window.phoneNumberCapture = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('phoneNumberCapture', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Phone Number Captured',
-                    eventLabel: event.detail ? event.detail.phoneNumber : 'Unknown'
-                });
 
+            // Phone Number Capture Event
+            window.phoneNumberCapture = function (event) {
                 if (window.analytics &&
-                    window.OnetrustActiveGroups &&
-                    window.OnetrustActiveGroups.includes('C0004')) {
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004') &&
+                event.detail &&
+                event.detail.phoneNumber) {
                     window.analytics.track(
-                        'Chat Engaged',
-                        { chat_source: 'zoominfo', chat_action: 'phone number captured' }
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: 'phone number captured' }
                     );
+                    window.analytics.identify({ 'phone': event.detail.phoneNumber });
                 }
                 console.log('📊 Phone Number Capture tracked');
             };
-            // Calendar Booked Event
-            window.calendarBooked = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('calendarBooked', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Calendar Booked',
-                    eventLabel: event.detail ? event.detail.meetingId : 'Unknown'
-                });
 
+            // Calendar Booked Event
+            window.calendarBooked = function (event) {
                 if (window.analytics &&
-                    window.OnetrustActiveGroups &&
-                    window.OnetrustActiveGroups.includes('C0004')) {
-                    window.analytics.track(
-                        'Chat Engaged',
-                        { chat_source: 'zoominfo', chat_action: 'calendar booked' }
-                    );
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004')) {
+                window.analytics.track(
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: 'calendar booked' }
+                );
                 }
+
                 console.log('📊 Calendar Booked tracked');
             };
+
             // Calendar Link Clicked Event
-            window.calendarLinkClicked = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('calendarLinkClicked', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Calendar Link Clicked',
-                    eventLabel: 'Calendar Link'
-                });
-     
+            window.calendarLinkClicked = function (event) {
+                if (window.analytics &&
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004')) {
+                window.analytics.track(
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: 'calendar link clicked' }
+                );
+                }
+
                 console.log('📊 Calendar Link Clicked tracked');
             };
+
             // Button Clicked Event
-            window.buttonClicked = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('buttonClicked', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Button Clicked',
-                    eventLabel: event.detail ? event.detail.buttonName : 'Unknown'
-                });
+            window.buttonClicked = function (event) {
+                buttonName = event.detail ? event.detail.buttonName : 'Unknown';
+                if (window.analytics &&
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004')) {
+                window.analytics.track(
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: `${buttonName} button clicked`}
+                );
+                }
 
-                console.log('📊 Button Clicked tracked:', event.detail ? event.detail.buttonName : 'Unknown');
+                console.log('📊 Button Clicked tracked:', buttonName);
             };
-            // Greeting Message Closed Event
-            window.greetingMessageClosed = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('greetingMessageClosed', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Greeting Message Closed',
-                    eventLabel: 'Chat Greeting'
-                });
 
+            // Greeting Message Closed Event
+            window.greetingMessageClosed = function (event) {
+                if (window.analytics &&
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004')) {
+                window.analytics.track(
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: 'greeting message closed' }
+                );
+                }
                 console.log('📊 Greeting Message Closed tracked');
             };
-            // Live Agent Unavailable Event
-            window.liveAgentUnavailable = function(event) {
-                if (typeof window.analytics!='undefined')
-                window.analytics.track('liveAgentUnavailable', {
-                    eventCategory: 'Chat',
-                    eventAction: 'Live Agent Unavailable',
-                    eventLabel: 'No Agent Available'
-                });
 
+              // Live Agent Unavailable Event
+            window.liveAgentUnavailable = function (event) {
+                if (window.analytics &&
+                window.OnetrustActiveGroups &&
+                window.OnetrustActiveGroups.includes('C0004')) {
+                    window.analytics.track(
+                    'Chat Engaged',
+                    { chat_source: 'salesforce', chat_action: 'live agent unavailable' }
+                    );
+                }  
                 console.log('📊 Live Agent Unavailable tracked');
             };
             console.log('✅ Analytics events set up');
