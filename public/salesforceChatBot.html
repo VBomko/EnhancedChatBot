@@ -67,22 +67,22 @@
 
 
                 // Initialize Embedded Messaging
-                 window.embeddedservice_bootstrap.init(
-                    '00DH30000000naQ',
-                    'Render',
-                    'https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713',
-                    {
-                      scrt2URL: 'https://megaport--peeklogicd.sandbox.my.salesforce-scrt.com'
-                    }
-                  );
-                  //embeddedservice_bootstrap.init(
-                    //'00D8r000009Fsyz',
-                    //'Sales_Chat_1',
-                    //'https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547',
+                 //window.embeddedservice_bootstrap.init(
+                   // '00DH30000000naQ',
+                    //'Render',
+                    //'https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713',
                     //{
-                        //scrt2URL: 'https://megaport--pldschatdt.sandbox.my.salesforce-scrt.com'
+                      //scrt2URL: 'https://megaport--peeklogicd.sandbox.my.salesforce-scrt.com'
                     //}
-               //);   
+                  //);
+                  embeddedservice_bootstrap.init(
+                    '00D8r000009Fsyz',
+                    'Sales_Chat_1',
+                    'https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547',
+                    {
+                        scrt2URL: 'https://megaport--pldschatdt.sandbox.my.salesforce-scrt.com'
+                    }
+               );   
    
                   console.log('✅ Embedded Messaging initialized');
                 } catch (err) {
@@ -311,8 +311,8 @@
             }
         }
     </script>
-    <!-- <script type='text/javascript' src='https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script> -->
+    <script type='text/javascript' src='https://megaport--pldschatdt.sandbox.my.site.com/ESWSalesChat1763986000547/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
 
-    <script type='text/javascript' src='https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+    <!-- <script type='text/javascript' src='https://megaport--peeklogicd.sandbox.my.site.com/ESWRender1762778032713/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script> -->
 </body>
 </html>
