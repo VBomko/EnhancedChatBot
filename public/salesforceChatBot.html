@@ -11,6 +11,8 @@
     </div>
      <script type='text/javascript'>
         var TEST_SITE_ORIGIN = 'https://enhancedchatbot-nwla.onrender.com';
+        
+        // only for testing purposes
         function setTestUrl(path) {
             if (path.charAt(0) !== '/') path = '/' + path;
             var targetUrl = TEST_SITE_ORIGIN + path;
@@ -47,6 +49,13 @@
                 }
             }
             console.log('💬 Chat window — ' + reason + ' | page URL:', window.location.href, '| parent URL:', parentUrl);
+
+            sendMessageToLWC({
+                action: 'CHAT_INIT_CONTEXT',
+                pageUrl: window.location.href,
+                parentUrl: parentUrl,
+                timestamp: new Date().toISOString()
+            });
         }
 
         function initEmbeddedMessaging() {
@@ -87,17 +96,18 @@
                 window.addEventListener('onEmbeddedMessagingButtonClicked', function () {
                     logChatOpenContext('launcher clicked (first click only per Salesforce)');
                 });
-                window.addEventListener('onEmbeddedMessagingConversationOpened', function (event) {
+                
+                /*window.addEventListener('onEmbeddedMessagingConversationOpened', function (event) {
                     logChatOpenContext('conversation opened');
                     console.log('onEmbeddedMessagingConversationOpened detail:', event.detail);
                 });
                 window.addEventListener('onEmbeddedMessagingPreChatLoaded', function (event) {
                     logChatOpenContext('pre-chat shown');
                     console.log('onEmbeddedMessagingPreChatLoaded detail:', event.detail);
-                });
+                }); */
 
                 window.addEventListener("onEmbeddedMessagingWindowMaximized", (event) => {
-                    logChatOpenContext('window maximized');
+                    //logChatOpenContext('window maximized');
                     console.log("Received the onEmbeddedMessagingWindowMaximized event…");
                     console.log("Event detail: ", event.detail);
                   
