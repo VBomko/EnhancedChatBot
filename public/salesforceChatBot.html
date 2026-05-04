@@ -6,23 +6,34 @@
 <body>
     <div id="url-test-buttons" style="font-family:sans-serif;padding:10px 12px;background:#eef2ff;border-bottom:1px solid #c7d2fe;margin-bottom:8px;">
         <span style="margin-right:10px;font-weight:600;color:#3730a3;">URL test</span>
-        <button type="button" onclick="setTestUrl('/Google')" style="margin-right:6px;padding:6px 12px;cursor:pointer;">Google</button>
-        <button type="button" onclick="setTestUrl('/YouTube')" style="margin-right:6px;padding:6px 12px;cursor:pointer;">YouTube</button>
+        <button type="button" onclick="setTestUrl('/google')" style="margin-right:6px;padding:6px 12px;cursor:pointer;">Google</button>
+        <button type="button" onclick="setTestUrl('/youtube')" style="margin-right:6px;padding:6px 12px;cursor:pointer;">YouTube</button>
     </div>
      <script type='text/javascript'>
         var TEST_SITE_ORIGIN = 'https://enhancedchatbot-nwla.onrender.com';
         function setTestUrl(path) {
             if (path.charAt(0) !== '/') path = '/' + path;
+            var targetUrl = TEST_SITE_ORIGIN + path;
+
+            // Try to update the top browser tab URL first (works in same-origin embedding).
             try {
-                if (window.location.origin === new URL(TEST_SITE_ORIGIN).origin) {
-                    history.pushState(null, '', path);
-                } else {
-                    window.location.href = TEST_SITE_ORIGIN + path;
+                if (window.top && window.top !== window) {
+                    window.top.history.pushState(null, '', targetUrl);
+                    console.log('Top tab URL after test button:', window.top.location.href);
+                    return;
                 }
             } catch (e) {
-                history.pushState(null, '', path);
+                console.warn('Could not update top tab URL directly:', e.message);
             }
-            console.log('URL after test button:', window.location.href);
+
+            // Fallback for top-level pages.
+            if (window.location.origin === new URL(TEST_SITE_ORIGIN).origin) {
+                window.history.pushState(null, '', path);
+            } else {
+                window.location.href = targetUrl;
+                return;
+            }
+            console.log('Current page URL after test button:', window.location.href);
         }
 
         /** Logs current page + parent URL when chat UI opens (see Salesforce Enhanced Web Chat event listeners). */
