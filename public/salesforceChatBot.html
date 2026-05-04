@@ -4,7 +4,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 </head>
 <body>
+    <div id="url-test-buttons" style="font-family:sans-serif;padding:10px 12px;background:#eef2ff;border-bottom:1px solid #c7d2fe;margin-bottom:8px;">
+        <span style="margin-right:10px;font-weight:600;color:#3730a3;">URL test</span>
+        <button type="button" onclick="setTestUrl('/Google')" style="margin-right:6px;padding:6px 12px;cursor:pointer;">Google</button>
+        <button type="button" onclick="setTestUrl('/YouTube')" style="margin-right:6px;padding:6px 12px;cursor:pointer;">YouTube</button>
+    </div>
      <script type='text/javascript'>
+        var TEST_SITE_ORIGIN = 'https://enhancedchatbot-nwla.onrender.com';
+        function setTestUrl(path) {
+            if (path.charAt(0) !== '/') path = '/' + path;
+            try {
+                if (window.location.origin === new URL(TEST_SITE_ORIGIN).origin) {
+                    history.pushState(null, '', path);
+                } else {
+                    window.location.href = TEST_SITE_ORIGIN + path;
+                }
+            } catch (e) {
+                history.pushState(null, '', path);
+            }
+            console.log('URL after test button:', window.location.href);
+        }
+
+        /** Logs current page + parent URL when chat UI opens (see Salesforce Enhanced Web Chat event listeners). */
+        function logChatOpenContext(reason) {
+            var parentUrl = '(not in iframe)';
+            if (window.parent !== window) {
+                try {
+                    parentUrl = window.parent.location.href;
+                } catch (e) {
+                    parentUrl = document.referrer || '(parent URL unavailable — cross-origin)';
+                }
+            }
+            console.log('💬 Chat window — ' + reason + ' | page URL:', window.location.href, '| parent URL:', parentUrl);
+        }
+
         function initEmbeddedMessaging() {
             try {
                 var parentUrl = '(not in iframe)';
@@ -39,7 +72,21 @@
                     }
                 });
 
+                // When the user opens chat (launcher / conversation / restoring from minimized)
+                window.addEventListener('onEmbeddedMessagingButtonClicked', function () {
+                    logChatOpenContext('launcher clicked (first click only per Salesforce)');
+                });
+                window.addEventListener('onEmbeddedMessagingConversationOpened', function (event) {
+                    logChatOpenContext('conversation opened');
+                    console.log('onEmbeddedMessagingConversationOpened detail:', event.detail);
+                });
+                window.addEventListener('onEmbeddedMessagingPreChatLoaded', function (event) {
+                    logChatOpenContext('pre-chat shown');
+                    console.log('onEmbeddedMessagingPreChatLoaded detail:', event.detail);
+                });
+
                 window.addEventListener("onEmbeddedMessagingWindowMaximized", (event) => {
+                    logChatOpenContext('window maximized');
                     console.log("Received the onEmbeddedMessagingWindowMaximized event…");
                     console.log("Event detail: ", event.detail);
                   
