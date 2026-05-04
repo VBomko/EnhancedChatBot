@@ -39,7 +39,7 @@
         }
 
         /** Logs current page + parent URL when chat UI opens (see Salesforce Enhanced Web Chat event listeners). */
-        function logChatOpenContext(reason) {
+        function handleChatInitContext(reason) {
             var parentUrl = '(not in iframe)';
             if (window.parent !== window) {
                 try {
@@ -51,7 +51,7 @@
             console.log('💬 Chat window — ' + reason + ' | page URL:', window.location.href, '| parent URL:', parentUrl);
 
             sendMessageToLWC({
-                action: 'CHAT_INIT_CONTEXT',
+                action: 'CHAT_INIT_CONTEXT_RESPONSE',
                 pageUrl: window.location.href,
                 parentUrl: parentUrl,
                 timestamp: new Date().toISOString()
@@ -92,22 +92,7 @@
                     }
                 });
 
-                // When the user opens chat (launcher / conversation / restoring from minimized)
-                window.addEventListener('onEmbeddedMessagingButtonClicked', function () {
-                    logChatOpenContext('launcher clicked (first click only per Salesforce)');
-                });
-                
-                /*window.addEventListener('onEmbeddedMessagingConversationOpened', function (event) {
-                    logChatOpenContext('conversation opened');
-                    console.log('onEmbeddedMessagingConversationOpened detail:', event.detail);
-                });
-                window.addEventListener('onEmbeddedMessagingPreChatLoaded', function (event) {
-                    logChatOpenContext('pre-chat shown');
-                    console.log('onEmbeddedMessagingPreChatLoaded detail:', event.detail);
-                }); */
-
                 window.addEventListener("onEmbeddedMessagingWindowMaximized", (event) => {
-                    //logChatOpenContext('window maximized');
                     console.log("Received the onEmbeddedMessagingWindowMaximized event…");
                     console.log("Event detail: ", event.detail);
                   
@@ -246,6 +231,9 @@
                     window.geoIpRegion = data.region;
                     console.log('✅ Region received from LWC and stored:', window.geoIpRegion);
                     console.log('window.geoIpRegion from Embedded:', window.geoIpRegion);
+                    break;
+                case 'GET_CHAT_INIT_CONTEXT':
+                    handleChatInitContext(data.pageUrl, data.parentUrl);
                     break;
                 default:
                     console.log('Unknown action from LWC:', data.action);
