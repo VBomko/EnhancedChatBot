@@ -61,17 +61,6 @@
         function initEmbeddedMessaging() {
             try {
 
-
-                window.addEventListener("onEmbeddedMessagingReady", () => {
-                    console.log("Received the onEmbeddedMessagingReady event...");
-                    embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
-                        "Source_Page": window.location.href,
-                        "Order_Number": "867-5309",
-                        "Customer_ID": "11098324"
-                    });
-                    embeddedservice_bootstrap.prechatAPI.removeHiddenPrechatFields(["Customer_ID"]);
-                });
-
                 embeddedservice_bootstrap.settings.language = 'en_US';
       
                 // Initialize storage for IP address and region (like original code)
