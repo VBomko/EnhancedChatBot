@@ -60,19 +60,11 @@
 
         function initEmbeddedMessaging() {
             try {
-                var parentUrl = '(not in iframe)';
-                if (window.parent !== window) {
-                    try {
-                        parentUrl = window.parent.location.href;
-                    } catch (e) {
-                        parentUrl = document.referrer || '(parent URL unavailable — cross-origin)';
-                    }
-                }
-                console.log('Parent URL (init):', parentUrl);
 
 
-                const params = new URLSearchParams(window.location.search);
-                console.log('Params:', params);
+                embeddedservice_bootstrap.prechatAPI.setHiddenPrechatFields({
+                    "Source_Page": window.location.href
+                });
 
                 embeddedservice_bootstrap.settings.language = 'en_US';
       
