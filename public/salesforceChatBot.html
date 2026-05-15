@@ -119,10 +119,7 @@
                     }
                 });
 
-                window.addEventListener('onEmbeddedMessagingBeforeInit', () => {
-                    console.log("Pre-chat override triggered!");
-                    window.embeddedservice_bootstrap.settings.prechatComponent = 'c:customPreChatForm';
-                });
+                embeddedservice_bootstrap.settings.prechatComponent = 'c:customPreChatForm';
 
                 // Initialize Embedded Messaging
                window.embeddedservice_bootstrap.init(
