@@ -223,6 +223,9 @@
                 case 'GET_CHAT_INIT_CONTEXT':
                     handleChatInitContext(data.pageUrl, data.parentUrl);
                     break;
+                case 'SUBMIT_PRECHAT':
+                    console.log('SUBMIT_PRECHAT event received from LWC');
+                    break;
                 default:
                     console.log('Unknown action from LWC:', data.action);
             }
