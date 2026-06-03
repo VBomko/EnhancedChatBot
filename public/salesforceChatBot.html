@@ -227,14 +227,15 @@
                     console.log('SUBMIT_PRECHAT event received from LWC');
                     break;
                 case 'GET_USER_TRAITS':
-                    window.parent.postMessage({
+                    sendMessageToLWC({
                         action: 'GET_USER_TRAITS_RESPONSE',
                         data: {
                             email: 'volodymyr.b@peeklogic.com',
                             firstName: 'Volodymyr',
                             lastName: 'Bomko',
-                        }
-                    }, '*');
+                        },
+                        timestamp: new Date().toISOString()
+                    });
                 default:
                     console.log('Unknown action from LWC:', data.action);
             }
