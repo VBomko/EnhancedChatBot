@@ -227,6 +227,7 @@
                     console.log('SUBMIT_PRECHAT event received from LWC');
                     break;
                 case 'GET_USER_TRAITS':
+                    console.log('GET_USER_TRAITS event received from LWC');
                     sendMessageToLWC({
                         action: 'GET_USER_TRAITS_RESPONSE',
                         data: {
@@ -236,6 +237,7 @@
                         },
                         timestamp: new Date().toISOString()
                     });
+                    break;
                 default:
                     console.log('Unknown action from LWC:', data.action);
             }
